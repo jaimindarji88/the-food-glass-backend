@@ -1,4 +1,3 @@
-
 /*
 APIKEY for food db: LUITmEEltJMaq6s75hXa1SGJIiWAhrn1MVKIikZH
 
@@ -20,8 +19,15 @@ const WatsonAPI = function(stringImage){
   });
 
   var id = hri.random();
-  console.log(stringImage)
-  var imgFile = base64Img.imgSync(stringImage, 'image', id, function(err, filepath) {
+  const reg = /^data:image\/(\w+);base64,([\s\S]+)/;
+  let ext = stringImage.substring(0, 30).match(reg);
+  if (ext) {
+    ext = '.'+ext[1];
+  } else {
+    ext = '.jpg';
+  }
+  
+  base64Img.imgSync(stringImage, 'image', id, function(err, filepath) {
     console.log(filepath, err)
   });
 
@@ -32,26 +38,24 @@ const WatsonAPI = function(stringImage){
   };
   
   var params = {
-    //images_file: fs.createReadStream('./fruit2.jpg'),
-    //images_file: fs.createReadStream('./fruit.png'),
-    images_file: imgFile,
+    images_file: fs.createReadStream(`./image/${id+ext}`),
     parameters: parameters
   };
   
-  visual_recognition.classify(params, function(err, response) {
-    if (err)
-      return console.log(err);
+  return visual_recognition.classify(params, function(err, response) {
+    if (err) return console.log(err);
     //console.log(JSON.stringify(response, null, 2))
-    var args = response.images[0].classifiers[0].classes;
-    var newList = []
-    args.forEach(function(element) {
-      newList.push({name: element.class, probability: element.score});
-    });
-    return new Promise(newList)
+    try {
+      var args = response.images[0].classifiers[0].classes;
+      var newList = []
+      args.forEach(function(element) {
+        newList.push({name: element.class, probability: element.score});
+      });
+      return {data: newList};
+    } catch(e) {
+      return {error: e}
+    }
+
   });
 }
-
-var bitmap = fs.readFileSync('./fruit.png', 'base64');
-
-WatsonAPI(bitmap);
-//export default WatsonAPI; ync('./fruit.png');
+export default WatsonAPI;
