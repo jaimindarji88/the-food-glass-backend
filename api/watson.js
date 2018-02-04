@@ -1,17 +1,28 @@
+
 /*
 APIKEY for food db: LUITmEEltJMaq6s75hXa1SGJIiWAhrn1MVKIikZH
 
 https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=LUITmEEltJMaq6s75hXa1SGJIiWAhrn1MVKIikZH&location=Denver+CO
 */
+var watson = require('watson-developer-cloud');
+var fs = require('fs');
+var Base64Decode = require('base64-stream').decode;
+var base64Img = require('base64-img');
+var hri = require('human-readable-ids').hri;
 
-const WatsonAPI = function(picture){
-  var watson = require('watson-developer-cloud');
-  var fs = require('fs');
+
+const WatsonAPI = function(stringImage){
 
   var visual_recognition = watson.visual_recognition({
     api_key: 'de73bb0daa7a4ec91ad49355fac9c0d893a252a3',
     version: 'v3',
     version_date: '2016-05-20'
+  });
+
+  var id = hri.random();
+  console.log(stringImage)
+  var imgFile = base64Img.imgSync(stringImage, 'image', id, function(err, filepath) {
+    console.log(filepath, err)
   });
 
   let parameters = {
@@ -23,7 +34,7 @@ const WatsonAPI = function(picture){
   var params = {
     //images_file: fs.createReadStream('./fruit2.jpg'),
     //images_file: fs.createReadStream('./fruit.png'),
-    images_file: fs.createReadStream(picture),
+    images_file: imgFile,
     parameters: parameters
   };
   
@@ -40,5 +51,7 @@ const WatsonAPI = function(picture){
   });
 }
 
-WatsonAPI('./fruit.png')
-//export default WatsonAPI; 
+var bitmap = fs.readFileSync('./fruit.png', 'base64');
+
+WatsonAPI(bitmap);
+//export default WatsonAPI; ync('./fruit.png');
