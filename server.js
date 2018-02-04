@@ -6,6 +6,9 @@ const http      = require('http');
 const server    = require('http').createServer(app);  
 const io        = require('socket.io')(server);
 
+const Watson    = require('./api/watson');
+const Clarifai  = require('./api/clarifai');
+
 const LISTEN_PORT   = 8080;
 
 server.listen(LISTEN_PORT);
@@ -25,6 +28,9 @@ io.on('connection', (socket) => {
     //custom events
     socket.on('getPic', (data) => {
         console.log("pic received");
-        io.sockets.emit('pic', {});
+        console.log(data);
+        
+
+        //io.sockets.emit('pic', {});
     });
 });

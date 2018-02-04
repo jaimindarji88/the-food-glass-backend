@@ -8,7 +8,7 @@ const ClarifaiAPI = async function(picture){
         apiKey: 'bca7d7576a33432bb12f40bb975465e5'
     });
     // using the "Food" model
-    const processData = await app.models.predict("bd367be194cf45149e75f01d59f77ba7", {base64: picture}).then(
+    return processData = await app.models.predict("bd367be194cf45149e75f01d59f77ba7", {base64: picture}).then(
         function(response) {
             var args = response.outputs[0].data.concepts;
             var newList = []
@@ -21,7 +21,6 @@ const ClarifaiAPI = async function(picture){
             return err;
         }
     );
-    return new Promise(processData);
 }
 
 export default ClarifaiAPI;
