@@ -1,8 +1,3 @@
-/*
-APIKEY for food db: LUITmEEltJMaq6s75hXa1SGJIiWAhrn1MVKIikZH
-
-https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=LUITmEEltJMaq6s75hXa1SGJIiWAhrn1MVKIikZH&location=Denver+CO
-*/
 var watson = require('watson-developer-cloud');
 var fs = require('fs');
 var Base64Decode = require('base64-stream').decode;
