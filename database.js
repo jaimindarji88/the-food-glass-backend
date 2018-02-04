@@ -13,4 +13,4 @@ const config = {
 
 const connection = new Connection(config)
 
-export default connection;
+module.exports = connection;

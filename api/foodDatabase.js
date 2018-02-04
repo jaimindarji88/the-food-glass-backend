@@ -19,3 +19,5 @@ const foodDatabase = function(foodID)
         }
     ); 
 }
+
+module.exports = foodDatabase;

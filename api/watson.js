@@ -50,7 +50,6 @@ const WatsonAPI = function(stringImage){
     } catch(e) {
       return {error: e}
     }
-
   });
 }
-export default WatsonAPI;
+module.exports = WatsonAPI;
