@@ -15,13 +15,13 @@ const ClarifaiAPI = async function(picture){
             args.forEach(function(element) {
                 newList.push({name: element.name, probability: element.value});
             });
-            return newList;
+            return new Promise(newList);
         },
         function(err) {
             return err;
         }
     );
-    return processData;
+    return new Promise(processData);
 }
 
 export default ClarifaiAPI;

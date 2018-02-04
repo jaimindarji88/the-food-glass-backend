@@ -47,7 +47,7 @@ const WatsonAPI = function(stringImage){
     args.forEach(function(element) {
       newList.push({name: element.class, probability: element.score});
     });
-    return console.log(newList)
+    return new Promise(newList)
   });
 }
 
